@@ -6,7 +6,8 @@ var httpreq = require('../../function/axios');
 var axios = require('axios');
 
 let database = `LIMinstrument`;
-let collection = `BALANCEdata`;
+// let collection = `BALANCEdata`;
+let collection = `BALANCEdataSingle`;
 
 
 router.post('/02SARBALANCE01SINGLESHOT/GENREQ', async (req, res) => {
