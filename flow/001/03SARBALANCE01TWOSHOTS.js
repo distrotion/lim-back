@@ -31,7 +31,7 @@ router.post('/03SARBALANCE01TWOSHOTS/GENREQ', async (req, res) => {
     if (check1.length === 0 && check2.length === 0) {
       neworder['LIMstatus'] = 'IP';
       neworder['LIMTYPE'] = '03SARBALANCE01TWOSHOTS';
-      neworder['data'] = { "W11": '', "W12": '' };
+      neworder['data'] = { "W11": '', "W12": '' ,"W13": '', "W14": '' };
       neworder['data_area'] = { "area": '' };
       neworder['data_ans'] = { "ans": '' };
       let ins1 = await mongodb.insertMany(database, collection, [neworder]);
@@ -64,6 +64,12 @@ router.post('/03SARBALANCE01TWOSHOTS/UPDATEDATAWEIGHT', async (req, res) => {
         output = 'ok';
       } else if (check1[0]['data']['W12'] == '') {
         let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W12": input['DataPreview'] } });
+        output = 'ok';
+      }else if (check1[0]['data']['W13'] == '') {
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W13": input['DataPreview'] } });
+        output = 'ok';
+      }else if (check1[0]['data']['W14'] == '') {
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W14": input['DataPreview'] } });
         output = 'ok';
       }
 
@@ -117,10 +123,16 @@ router.post('/03SARBALANCE01TWOSHOTS/DELETEDATAW11', async (req, res) => {
     let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" });
     if (check1.length > 0) {
 
-      if (check1[0]['data']['W12'] != '') {
+      if (check1[0]['data']['W14'] != '') {
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W14": '' } });
+        output = 'ok';
+      } else if (check1[0]['data']['W13'] != '') {
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W13": '' } });
+        output = 'ok';
+      }else if (check1[0]['data']['W12'] != '') {
         let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W12": '' } });
         output = 'ok';
-      } else if (check1[0]['data']['W11'] != '') {
+      }else if (check1[0]['data']['W11'] != '') {
         let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W11": '' } });
         output = 'ok';
       }
