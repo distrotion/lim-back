@@ -31,6 +31,7 @@ router.post('/02SARBALANCE01SINGLESHOT/GENREQ', async (req, res) => {
       neworder['LIMstatus'] = 'IP';
       neworder['LIMTYPE'] = '02SARBALANCE01SINGLESHOT';
       neworder['data'] = { "W11": '' };
+      neworder['data_adj'] = { "W11": '' };
       let ins1 = await mongodb.insertMany(database, collection, [neworder]);
 
       output = 'ok';
@@ -60,6 +61,9 @@ router.post('/02SARBALANCE01SINGLESHOT/UPDATEDATAW11', async (req, res) => {
       if (check1[0]['data']['W11'] == '') {
         let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
         output = 'ok';
+      }else if(check1[0]['data_adj']['W11'] == ''){
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": input['DataPreview'] } });
+        output = 'ok';
       }
 
     }
@@ -87,6 +91,32 @@ router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11', async (req, res) => {
     if (check1.length > 0) {
 
       let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W11": '' } });
+      output = 'ok';
+
+    }
+
+  }
+
+  //-------------------------------------
+  res.json(output);
+});
+
+router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11_adj', async (req, res) => {
+  //-------------------------------------
+  console.log("--02SARBALANCE01SINGLESHOT/DELETEDATAW11--");
+  console.log(req.body);
+  let input = req.body;
+  //-------------------------------------
+  let output = 'nok';
+  if (input['ReqNo'] != undefined && input['DataPreview'] != undefined && input['ReqNo'] != '') {
+
+    let timestamp = Date.now();
+    let neworder = input;
+
+    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" });
+    if (check1.length > 0) {
+
+      let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": '' } });
       output = 'ok';
 
     }
