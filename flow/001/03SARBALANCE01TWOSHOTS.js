@@ -63,7 +63,7 @@ router.post('/03SARBALANCE01TWOSHOTS/UPDATEDATAWEIGHT', async (req, res) => {
         let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
         output = 'ok';
       } else if (check1[0]['data']['W12'] == '') {
-        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": input['DataPreview'] } });
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W12": input['DataPreview'] } });
         output = 'ok';
       }
 
