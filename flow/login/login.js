@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 let mongodb = require('../../function/mongodb');
+var mssql = require('../../function/mssql');
 
 let Auth  = 'Auth';
 let user  = 'user';
@@ -28,30 +29,35 @@ router.post('/register', async (req, res) => {
     res.json(output);
 });
 
-router.post('/login', async (req, res) => {
+router.post('/SAR/login', async (req, res) => {
     //-------------------------------------
     console.log(req.body);
     let input = req.body;
     //-------------------------------------
     let output = {"return":'NOK'}
-    let findDB = await mongodb.find(Auth,user,{"ID":input['ID']});
-    console.log(findDB['PASS']);
-    console.log(input['PASS']);
-    if(findDB.length > 0){
-
-        if(findDB[0]['PASS'] === input['PASS']){
+    // let findDB = await mongodb.find(Auth,user,{"ID":input['ID']});
+    var findDB = await mssql.qurey(`SELECT  *  FROM [SAR].[dbo].[Master_User] WHERE [UserName] = '${input['UserName']}'`);
+  try{
+    if(findDB['recordsets'].length > 0){
+        console.log(findDB['recordsets']);
+        if(findDB['recordsets'][0][0]['Password'] === input['Password']){
             output = {
-                "ID":findDB[0]['ID'],
-                "NAME":findDB[0]['NAME'],
-                "LV":findDB[0]['LV'] || '1',
+                "UserName":findDB['recordsets'][0][0]['UserName'],
+                "NAME":findDB['recordsets'][0][0]['Name'],
+                "Section":findDB['recordsets'][0][0]['Section'],
+                "Roleid":findDB['recordsets'][0][0]['Roleid'] || '1',
                 "return":'OK'
             }
         }else{
             output = {"return":'PASSWORD INCORRECT'}
         }
 
-        
     }
+  }catch{
+
+  }
+    // console.log(input['PASS']);
+   
     
     console.log(output)
     return res.json(output);

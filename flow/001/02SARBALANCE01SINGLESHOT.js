@@ -24,8 +24,8 @@ router.post('/02SARBALANCE01SINGLESHOT/GENREQ', async (req, res) => {
     neworder['GENREQtimestamp'] = timestamp;
 
 
-    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" });
-    let check2 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "SEND" });
+    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" });
+    let check2 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'],  "LIMstatus": "SEND" });
     console.log("-------->");
     
     if (check1.length === 0 && check2.length === 0) {
@@ -57,13 +57,13 @@ router.post('/02SARBALANCE01SINGLESHOT/UPDATEDATAW11', async (req, res) => {
     let timestamp = Date.now();
     let neworder = input;
 
-    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" });
+    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" });
     if (check1.length > 0) {
       if (check1[0]['data']['W11'] == '') {
-        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
         output = 'ok';
       }else if(check1[0]['data_adj']['W11'] == ''){
-        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": input['DataPreview'] } });
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": input['DataPreview'] } });
         output = 'ok';
       }
 
@@ -88,10 +88,10 @@ router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11', async (req, res) => {
     let timestamp = Date.now();
     let neworder = input;
 
-    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" });
+    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" });
     if (check1.length > 0) {
 
-      let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W11": '' } });
+      let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W11": '' } });
       output = 'ok';
 
     }
@@ -114,10 +114,10 @@ router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11_adj', async (req, res) => {
     let timestamp = Date.now();
     let neworder = input;
 
-    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" });
+    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" });
     if (check1.length > 0) {
 
-      let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": '' } });
+      let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'],"UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data_adj.W11": '' } });
       output = 'ok';
 
     }

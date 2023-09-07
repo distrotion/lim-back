@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.use(require("./flow/001/01SARBALANCE01TABLE"));
 router.use(require("./flow/001/02SARBALANCE01SINGLESHOT"));
-router.use(require("./flow/001/03SARBALANCE01TWOSHOTS"));
+router.use(require("./flow/001/03SARBALANCE01CWT"));
 
 
 
