@@ -36,7 +36,7 @@ router.post('/SAR/login', async (req, res) => {
     //-------------------------------------
     let output = {"return":'NOK'}
     // let findDB = await mongodb.find(Auth,user,{"ID":input['ID']});
-    var findDB = await mssql.qurey(`SELECT  *  FROM [SAR].[dbo].[Master_User] WHERE [UserName] = '${input['UserName']}'`);
+    var findDB = await mssql.qurey(`SELECT  *  FROM [SAR].[dbo].[Master_User] WHERE [UserName] LIKE '${input['UserName']}'`);
   try{
     if(findDB['recordsets'].length > 0){
         console.log(findDB['recordsets']);

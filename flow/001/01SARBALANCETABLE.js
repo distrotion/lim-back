@@ -8,7 +8,7 @@ var axios = require('axios');
 
 
 
-router.post('/GETBALANCE01REQ', async (req, res) => {
+router.post('/GETBALANCEREQ', async (req, res) => {
   //-------------------------------------
   console.log(req.body);
   //-------------------------------------

@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.use(require("./flow/001/01SARBALANCE01TABLE"));
-router.use(require("./flow/001/02SARBALANCE01SINGLESHOT"));
-router.use(require("./flow/001/03SARBALANCE01CWT"));
+router.use(require("./flow/001/01SARBALANCETABLE"));
+router.use(require("./flow/001/02SARBALANCECW"));
+router.use(require("./flow/001/03SARBALANCEICP"));
+router.use(require("./flow/001/04SARBALANCESLUDGE"));
 
 
 

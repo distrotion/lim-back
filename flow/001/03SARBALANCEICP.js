@@ -10,14 +10,14 @@ let database = `LIMinstrument`;
 let collection = `BALANCEdataSingle`;
 
 
-router.post('/02SARBALANCE01SINGLESHOT/GENREQ', async (req, res) => {
+router.post('/03SARBALANCEICP/GENREQ', async (req, res) => {
   //-------------------------------------
-  console.log("--02SARBALANCE01SINGLESHOT/GENREQ--");
+  console.log("--03SARBALANCEICP/GENREQ--");
   console.log(req.body);
   let input = req.body;
   //-------------------------------------
   let output = 'nok';
-  if (input['ReqNo'] != undefined && input['InstrumentName'] != undefined && input['ReqNo'] != '') {
+  if (input['ReqNo'] != undefined && input['InstrumentName'] != undefined && input['ReqNo'] != ''&& input['INSNO'] != '') {
 
     let timestamp = Date.now();
     let neworder = input;
@@ -30,7 +30,8 @@ router.post('/02SARBALANCE01SINGLESHOT/GENREQ', async (req, res) => {
     
     if (check1.length === 0 && check2.length === 0) {
       neworder['LIMstatus'] = 'IP';
-      neworder['LIMTYPE'] = '02SARBALANCE01SINGLESHOT';
+      neworder['LIMTYPE'] = '03SARBALANCEICP';
+      neworder['INSNO'] = input['INSNO'];
       neworder['data'] = { "W11": '' };
       neworder['data_adj'] = { "W11": '' };
       let ins1 = await mongodb.insertMany(database, collection, [neworder]);
@@ -45,9 +46,9 @@ router.post('/02SARBALANCE01SINGLESHOT/GENREQ', async (req, res) => {
 });
 
 
-router.post('/02SARBALANCE01SINGLESHOT/UPDATEDATAW11', async (req, res) => {
+router.post('/03SARBALANCEICP/UPDATEDATAW11', async (req, res) => {
   //-------------------------------------
-  console.log("--02SARBALANCE01SINGLESHOT/UPDATEDATAW11--");
+  console.log("--03SARBALANCEICP/UPDATEDATAW11--");
   console.log(req.body);
   let input = req.body;
   //-------------------------------------
@@ -76,9 +77,9 @@ router.post('/02SARBALANCE01SINGLESHOT/UPDATEDATAW11', async (req, res) => {
 });
 
 
-router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11', async (req, res) => {
+router.post('/03SARBALANCEICP/DELETEDATAW11', async (req, res) => {
   //-------------------------------------
-  console.log("--02SARBALANCE01SINGLESHOT/DELETEDATAW11--");
+  console.log("--03SARBALANCEICP/DELETEDATAW11--");
   console.log(req.body);
   let input = req.body;
   //-------------------------------------
@@ -102,9 +103,9 @@ router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11', async (req, res) => {
   res.json(output);
 });
 
-router.post('/02SARBALANCE01SINGLESHOT/DELETEDATAW11_adj', async (req, res) => {
+router.post('/03SARBALANCEICP/DELETEDATAW11_adj', async (req, res) => {
   //-------------------------------------
-  console.log("--02SARBALANCE01SINGLESHOT/DELETEDATAW11--");
+  console.log("--03SARBALANCEICP/DELETEDATAW11--");
   console.log(req.body);
   let input = req.body;
   //-------------------------------------
