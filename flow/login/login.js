@@ -46,6 +46,7 @@ router.post('/SAR/login', async (req, res) => {
                 "NAME":findDB['recordsets'][0][0]['Name'],
                 "Section":findDB['recordsets'][0][0]['Section'],
                 "Roleid":findDB['recordsets'][0][0]['Roleid'] || '1',
+                "Branch": findDB['recordsets'][0][0]['Branch'],
                 "return":'OK'
             }
         }else{

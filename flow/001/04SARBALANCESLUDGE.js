@@ -51,26 +51,85 @@ router.post('/04SARBALANCESLUDGE/GENREQ', async (req, res) => {
 
 router.post('/04SARBALANCESLUDGE/UPDATEDATAWEIGHT', async (req, res) => {
   //-------------------------------------
-  console.log("--04SARBALANCESLUDGE/UPDATEDATAW11--");
+  console.log("--04SARBALANCESLUDGE/UPDATEDATAWEIGHT--");
   console.log(req.body);
   let input = req.body;
   //-------------------------------------
   let output = 'nok';
-  if (input['ReqNo'] != undefined && input['DataPreview'] != undefined && input['ReqNo'] != '') {
+  if (input['ReqNo'] != undefined && input['DataPreview'] != undefined && input['ReqNo'] != ''&& input['WX'] != undefined) {
 
     let timestamp = Date.now();
     let neworder = input;
 
     let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" });
+
+    console.log(check1);
     if (check1.length > 0) {
-      if (check1[0]['data']['W11'] == '') {
-        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
-        output = 'ok';
-      } else if (check1[0]['data']['W12'] == '') {
-        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W12": input['DataPreview'] } });
-        output = 'ok';
+      // if (check1[0]['data']['W11'] == '') {
+      //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
+      //   output = 'ok';
+      // } else if (check1[0]['data']['W12'] == '') {
+      //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W12": input['DataPreview'] } });
+      //   output = 'ok';
+      // }
+      if(input['WX'] == 'D01W11'){
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data01.W11": input['DataPreview'] } });
+      }
+      if(input['WX'] == 'D01W21'){
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data01.W21": input['DataPreview'] } });
+      }
+      if(input['WX'] == 'D02W11'){
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data02.W11": input['DataPreview'] } });
+      }
+      if(input['WX'] == 'D02W21'){
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data02.W21": input['DataPreview'] } });
       }
 
+     
+
+
+      // else if (check1[0]['data']['W13'] == '') {
+      //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W13": input['DataPreview'] } });
+      //   output = 'ok';
+      // }else if (check1[0]['data']['W14'] == '') {
+      //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W14": input['DataPreview'] } });
+      //   output = 'ok';
+      // }
+
+    }
+
+  }
+
+  //-------------------------------------
+  res.json(output);
+});
+
+router.post('/04SARBALANCESLUDGE/UPDATEDATAVOLUME', async (req, res) => {
+  //-------------------------------------
+  console.log("--04SARBALANCESLUDGE/UPDATEDATAWEIGHT--");
+  console.log(req.body);
+  let input = req.body;
+  //-------------------------------------
+  let output = 'nok';
+  if (input['ReqNo'] != undefined && input['DataPreview'] != undefined && input['ReqNo'] != ''&& input['D01NOitem'] != undefined&& input['D02NOitem'] != undefined&& input['AREA01'] != undefined&& input['AREA02'] != undefined) {
+
+    let timestamp = Date.now();
+    let neworder = input;
+
+    let check1 = await mongodb.find(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" });
+
+    console.log(check1);
+    if (check1.length > 0) {
+      // if (check1[0]['data']['W11'] == '') {
+      //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W11": input['DataPreview'] } });
+      //   output = 'ok';
+      // } else if (check1[0]['data']['W12'] == '') {
+      //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "data.W12": input['DataPreview'] } });
+      //   output = 'ok';
+      // }
+   
+        let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "UID": neworder['UID'], "LIMstatus": "IP" }, { $set: { "D01NOitem": input['D01NOitem'], "D02NOitem": input['D02NOitem'], "AREA01": input['AREA01'], "AREA02": input['AREA02'] } });
+     
 
       // else if (check1[0]['data']['W13'] == '') {
       //   let ins2 = await mongodb.update(database, collection, { "ReqNo": neworder['ReqNo'], "LIMstatus": "IP" }, { $set: { "data.W13": input['DataPreview'] } });
